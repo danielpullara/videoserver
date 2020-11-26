@@ -81,7 +81,7 @@ class Upload extends React.Component {
           <h4>Upload Video</h4>
           <hr className="my-4" />
 
-          <form method="post" name="videoUpload" action="/api/upload" id="#" encType="multipart/form-data">
+          <form method="post" name="videoUpload" action="/upload" id="#" encType="multipart/form-data">
             <div className="form-group files">
               <label>Upload Your Videos Here</label>
               <input
