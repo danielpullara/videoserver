@@ -24,7 +24,7 @@ const upload = multer({
 router.post('/', upload.single('file'), (req, res, next) => {
     thumbnailGenerator.generateThumbnail(
         // /api/videos is made publically available in App.js
-        'https://video-server-drones-in-hawaii.herokuapp.com/:' + port + '/api/videos/' + req.file.filename.replace(/ /g, '_'), 
+        'http://127.0.0.1:' + port + '/api/videos/' + req.file.filename.replace(/ /g, '_'), 
         req.file.filename.replace(/ /g, '_'),
         req.userData.firstName);
       res.status(200).json({
