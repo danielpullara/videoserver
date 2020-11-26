@@ -5,10 +5,12 @@ const morgan = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+require('dotenv').config()
+
 
 const checkAuth = require('./middlewares/check-auth')
 
-mongoose.connect('mongodb://127.0.0.1/video-upload', {
+mongoose.connect('mongodb+srv://m001-student:Argentina31@mern.o4nah.mongodb.net/video-upload?retryWrites=true&w=majority',{
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
