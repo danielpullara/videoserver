@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const path = require('path');
 
 const morgan = require('morgan');
 const cors = require('cors');
@@ -22,7 +23,18 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/videos', express.static('media/uploads'));
+app.get('/api/videos/*', (req, res, nxt) => {
+    res.sendFile(((req.params[0] || '').slice(0, req.params[0].length - 1) || ''), {
+        root: path.join(__dirname, 'media/uploads'),
+        dotfiles: 'deny',
+        headers: {
+            'x-timestamp': Date.now(),
+            'x-sent': true
+        }
+    });
+});
+app.use('/api/videos', express.static(path.join(__dirname, 'media/uploads/')));
+
 
 
 //Routes
