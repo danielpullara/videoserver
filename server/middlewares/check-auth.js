@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken')
 
-const key = require('../configs/default').secret_key;
+const key = require('config').secret_key;
 
 module.exports = (req, res, next) => {
-    try{
+    try {
         const token = req.headers.authorization.split(" ")[1];
         //console.log('CHECK SUCCESSFUL: Your token: ' + token);
         const decoded = jwt.verify(token, key);

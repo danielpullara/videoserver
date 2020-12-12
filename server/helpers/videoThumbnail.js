@@ -2,9 +2,13 @@ const { spawn } = require('child_process');
 const { createWriteStream } = require('fs');
 
 const VideoDetails = require('../models/VideoDetails');
-const port = require('../configs/default').port;
-
-const ffmpegPath = '/usr/local/bin/ffmpeg';
+const config = require('config');
+const port = config.port;
+const basePath = config.isProduction
+  ? `${config.protocol}://${config.host}`
+  : `${config.protocol}://${config.host}:${config.port}`;
+// https://video-server-drones-in-hawaii.herokuapp.com
+const ffmpegPath = config.ffmpegPath;     //  '/usr/bin/ffmpeg';     // '/usr/local/bin/ffmpeg';
 const width = 256;
 const height = 144;
 
@@ -33,7 +37,7 @@ const generateThumbnail = (target, title, username) => {
     uploader_name: username,
     upload_title: title,
     video_path: target,
-    thumbnail_path: "https://video-server-drones-in-hawaii.herokuapp.com/api/videos/video_thumbnails/" + encodeURIComponent(title + '.jpg')
+    thumbnail_path: basePath + "/api/videos/video_thumbnails/" + encodeURIComponent(title + '.jpg')
   });
   videoDetails
     .save()
