@@ -51,7 +51,9 @@ class Upload extends React.Component {
     for (let i = 0; i < this.state.selectedVideos.length; i++) {
       data.append('file', this.state.selectedVideos[i]);
     }
-    axios.post("https://video-server-drones-in-hawaii.herokuapp.com/api/upload", data, {
+    // Fixed by shiv
+    const apiUrl = process.env.REACT_APP_api_url;
+    axios.post(apiUrl + "/api/upload", data, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userTokenTime')).token
