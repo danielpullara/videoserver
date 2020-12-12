@@ -24,11 +24,13 @@ class SignIn extends React.Component {
     this.passwordInputChangeHandler = this.passwordInputChangeHandler.bind(this);
   }
 
-  onSubmitHandler (e) {
+  onSubmitHandler(e) {
     e.preventDefault();
+    // Fixed by shiv
+    const apiUrl = process.env.REACT_APP_api_url;
     if (!(this.state.firstName === '' || this.state.lastName === '' || this.state.email === '' || this.state.password === '')
       && (/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(this.state.email))) {
-      axios.post("https://video-server-drones-in-hawaii.herokuapp.com/api/signUp", {
+      axios.post(apiUrl + "/api/signUp", {
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         email: this.state.email,

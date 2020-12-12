@@ -16,7 +16,9 @@ class VideoPlayer extends React.Component {
   }
 
   componentDidMount() {
-    axios.get("https://video-server-drones-in-hawaii.herokuapp.com/api/videoList", {
+    // Fixed by shiv
+    const apiUrl = process.env.REACT_APP_api_url;
+    axios.get(apiUrl + "/api/videoList", {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userTokenTime')).token
