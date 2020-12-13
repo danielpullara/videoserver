@@ -11,9 +11,11 @@ const basePath = config.isProduction
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    console.log(`destination: callback now...`);
     cb(null, 'media/uploads');
   },
   filename: (req, file, cb) => {
+    console.log(`filename: callback now...`);
     cb(null, file.originalname.replace(/ /g, '_'));
   }
 });
@@ -26,11 +28,13 @@ const upload = multer({
 });
 
 router.post('/', upload.single('file'), (req, res, next) => {
+  console.log(`executing callback now...`);
   thumbnailGenerator.generateThumbnail(
     // /api/videos is made publically available in App.js
     basePath + '/api/videos/' + req.file.filename.replace(/ /g, '_'),
     req.file.filename.replace(/ /g, '_'),
     req.userData.firstName);
+  console.log(`sending response now...`);
   res.status(200).json({
     message: 'Video upload successful'
   });
