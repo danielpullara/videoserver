@@ -53,12 +53,16 @@ class Upload extends React.Component {
     }
     // Fixed by shiv
     const apiUrl = process.env.REACT_APP_api_url;
-    axios.post(apiUrl + "/api/upload", data, {
+    axios({
+      baseURL: apiUrl,
+      url: "/api/upload",
+      method: 'post',
+      data: data,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userTokenTime')).token
-      }
-    }, {
+      },
+      // Fixed by shiv
       onUploadProgress: ProgressEvent => {
         this.setState({
           loaded: (ProgressEvent.loaded / ProgressEvent.total * 100)
