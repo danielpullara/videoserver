@@ -11,7 +11,8 @@ import Navbar from '../Navbar/Navbar';
 class Upload extends React.Component {
   state = {
     selectedVideos: null,
-    loaded: 0
+    loaded: 0,
+    isUploadDisabled: false
   }
 
   maxSelectFile(event) {
@@ -48,11 +49,15 @@ class Upload extends React.Component {
 
   fileUploadHandler(event) {
     const data = new FormData();
+    if (!(this.state.selectedVideos || []).length)
+      return;
+
     for (let i = 0; i < this.state.selectedVideos.length; i++) {
       data.append('file', this.state.selectedVideos[i]);
     }
     // Fixed by shiv
     const apiUrl = process.env.REACT_APP_api_url;
+    this.setState({ isUploadDisabled: true });
     axios({
       baseURL: apiUrl,
       url: "/api/upload",
@@ -70,8 +75,10 @@ class Upload extends React.Component {
       }
     }).then(res => {
       toast.success('Upload Successful');
+      this.setState({ isUploadDisabled: false });
     }).catch(err => {
       toast.error(`Upload Fail with status: ${err.statusText}`);
+      this.setState({ isUploadDisabled: false });
     });
   }
 
@@ -102,6 +109,7 @@ class Upload extends React.Component {
               </Progress>
               <button
                 type="button"
+                disabled={this.state.isUploadDisabled}
                 className="btn btn-success btn-block"
                 onClick={this.fileUploadHandler.bind(this)}>Upload Video
               </button>
