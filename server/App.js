@@ -24,8 +24,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.get('/api/videos/*', (req, res, nxt) => {
-    res.sendFile(((req.params[0] || '').slice(0, req.params[0].length - 1) || ''), {
-        root: path.join(__dirname, 'media/uploads'),
+    let fileName = ((req.params[0] || '').slice(0, req.params[0].length) || '');
+    res.sendFile(fileName, {
+        root: path.join(__dirname, './media/uploads/'),
         dotfiles: 'deny',
         headers: {
             'x-timestamp': Date.now(),
@@ -33,7 +34,7 @@ app.get('/api/videos/*', (req, res, nxt) => {
         }
     });
 });
-app.use('/api/videos', express.static(path.join(__dirname, 'media/uploads/')));
+app.use('/api/videos', express.static(path.join(__dirname, './media/uploads')));
 
 
 

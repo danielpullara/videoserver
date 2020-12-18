@@ -24,12 +24,13 @@ class VideoPlayer extends React.Component {
         'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('userTokenTime')).token
       }
     }).then(res => {
-      res.data.map(video => {
+      // Fixed by shiv
+      for (let video of res.data) {
         if (video.upload_title === this.props.match.params.videoTitle) {
           this.setState({
             loaded: true,
             videoJsOptions: {
-              autoplay: false,
+              autoplay: true,
               controls: true,
               sources: [{
                 src: video.video_path
@@ -41,8 +42,10 @@ class VideoPlayer extends React.Component {
               // console.log('onPlayerReady', this)
             });
           });
+
+          break;
         }
-      });
+      }
     });
   }
 
